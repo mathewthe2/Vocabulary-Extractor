@@ -1,11 +1,14 @@
 <html>
     <body>
-        <div>Upload text file</div>
-        <input type="file" id="files">
-        <div style="margin-top: 20px">
-            <button id="download">Download CSV</button>
+        <div id="setup">Loading dictionaries...</div>
+        <div id="main" hidden>
+            <div>Upload text file</div>
+            <input type="file" id="files">
+            <div style="margin-top: 20px">
+                <button id="download">Download CSV</button>
+            </div>
+            <div id="output"></div>
         </div>
-        <div id="output"></div>
         <script src="kuromoji/kuromoji.js"></script>
         <script src="rikaisama/jedict.js"></script>
         <script src="rikaisama/deinflect.js"></script>

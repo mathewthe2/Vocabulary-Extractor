@@ -4,11 +4,17 @@ let segementer = null;
 kuromoji.builder({ dicPath: "kuromoji/dict/" }).build(function (err, tokenizer) {
     // tokenizer is ready
     segementer = tokenizer;
+    showInterface();
 });
 let nextId = 1;
 let currentResults = [];
 
 const symbols = '*，! " # $ % & ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~0123456789０１２３４５６７８９'
+
+function showInterface() {
+    $("#setup").hidden = true;
+    $("#main").hidden = false;
+}
 
 $("#files").addEventListener("change", async ev => {
     let files = [];
