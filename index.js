@@ -82,5 +82,6 @@ worker.onmessage = function(e) {
         })
     })
     currentResults = Array.from(results);
-    $("#output").innerText = currentResults.join('\n')
+    $("#output").innerText = currentResults.join('\n');
+    $("#download").disabled = false;
   }
