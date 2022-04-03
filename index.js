@@ -42,7 +42,7 @@ function getRows() {
         if (result?.length > 0) {
             const basicForm = result.split(" ")[0];
             const reading = result.includes('[') ? result.split("[")[1]?.split("]")[0] : '';
-            const pos = result.split("(")[1]?.split(")")[0];
+            const pos = result.split("(")[1]?.split(")")[0].replaceAll(',', '/');
             const glossary = result.split(") ")[1];
             return [basicForm === undefined ? '' : basicForm,
             reading === undefined ? '' : reading,
