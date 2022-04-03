@@ -1,9 +1,28 @@
 <html>
     <body style="margin: 25">
-        <h1>Vocabulary Extractor</h1>
+        <h1 style="color: #808080">Vocabulary Extractor</h1>
         <div id="setup">Loading dictionaries...</div>
         <div id="main" hidden>
-            <input type="file" id="files">
+            <div hidden id="settings">
+                <h3>Settings</h3>
+                <details>
+                    <summary>Set Filters</summary>
+                    <p>
+                        <label for="pos">Parts of Speech</label>
+                        <select name="pos" id="pos">
+                            <option value="noun">Nouns</option>
+                            <option value="verb">Verbs</option>
+                            <option value="all">All</option>
+                        </select>
+                    </p>
+                    </details>
+                </details>
+            </div>
+            <div id="upload">
+                <h3>Upload</h3>
+                <input type="file" id="files">
+            </div>
+            <div hidden style="margin-top: 20px" id="processing">Processing...</div>
             <div style="margin-top: 20px">
                 <button id="download" disabled>Download CSV</button>
             </div>

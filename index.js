@@ -72,6 +72,7 @@ function addFiles(files) {
       cmd.action = "addFiles";
       cmd.files = files;
     }
+    $('#processing').hidden = false;
     worker.postMessage(cmd);
 }
 
@@ -104,6 +105,7 @@ worker.onmessage = function(e) {
         })
     })
     currentResults = Array.from(results);
+    $('#processing').hidden = true;
     $("#output").innerText = currentResults.join('\n');
     $("#download").disabled = false;
   }
