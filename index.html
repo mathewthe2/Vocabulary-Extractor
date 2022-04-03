@@ -1,20 +1,24 @@
 <html>
-    <body>
+    <body style="margin: 25">
+        <h1>Vocabulary Extractor</h1>
         <div id="setup">Loading dictionaries...</div>
         <div id="main" hidden>
-            <div>Upload text file</div>
             <input type="file" id="files">
             <div style="margin-top: 20px">
                 <button id="download" disabled>Download CSV</button>
             </div>
             <div id="output"></div>
         </div>
-        <script src="kuromoji/kuromoji.js"></script>
+        <!-- <script src="kuromoji/kuromoji.js"></script> -->
         <script src="rikaisama/jedict.js"></script>
         <script src="rikaisama/deinflect.js"></script>
         <script src="rikaisama/data.js"></script>
         <script src="rikaisama/config.js"></script>
         <script src="rikaisama/raikaichan.js"></script>
+
+        <script type="text/javascript" src="rakutenma/rakutenma.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="rakutenma/model_ja.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="rakutenma/hanzenkaku.js" charset="UTF-8"></script>
         <script src="index.js"></script>
     </body>
 </html>

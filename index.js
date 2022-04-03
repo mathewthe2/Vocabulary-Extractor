@@ -1,11 +1,10 @@
 let $ = s => document.querySelector(s);
 let worker = new Worker("worker.js");
 let segementer = null;
-kuromoji.builder({ dicPath: "kuromoji/dict/" }).build(function (err, tokenizer) {
-    // tokenizer is ready
-    segementer = tokenizer;
-    showInterface();
-});
+// kuromoji.builder({ dicPath: "kuromoji/dict/" }).build(function (err, tokenizer) {
+//     segementer = tokenizer;
+//     showInterface();
+// });
 let nextId = 1;
 let currentResults = [];
 
@@ -15,6 +14,19 @@ function showInterface() {
     $("#setup").hidden = true;
     $("#main").hidden = false;
 }
+
+console.log('hello')
+
+rma_ja = new RakutenMA(model_ja);
+rma_ja.featset = RakutenMA.default_featset_ja;
+rma_ja.hash_func = RakutenMA.create_hash_func(15);
+
+showInterface()
+
+// const text = '彼は新しい仕事できっと成功するだろう'
+
+// tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(text))));
+// console.log(tokens)
 
 $("#files").addEventListener("change", async ev => {
     let files = [];
@@ -65,14 +77,27 @@ function addFiles(files) {
     worker.postMessage(cmd);
 }
 
+function isNoun(token) {
+    if (token.length > 1) {
+        if (token[1].length > 0) {
+            return token[1][0] === 'N'
+        }
+    }
+    return false
+}
+
 worker.onmessage = function(e) {
     let result = e.data;
     const results = new Set();
     result.lines?.forEach(line=>{
-        var tokens = segementer.tokenize(line);
+        // var tokens = segementer.tokenize(line);
+        var tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(line))))
+        console.log(tokens)
         tokens.forEach(token=>{
-            if (token.pos === "名詞" && !symbols.includes(token.basic_form)) {
-                const translationObject = rcxData.translate(token.basic_form) 
+            if (isNoun(token) && !symbols.includes(token[0])) {
+            // if (token.pos === "名詞" && !symbols.includes(token.basic_form)) {
+                // const translationObject = rcxData.translate(token.basic_form) 
+                const translationObject = rcxData.translate(token[0]) 
                 translation = translationObject?.data[0][0];
 
                 if (translation !== undefined) {
