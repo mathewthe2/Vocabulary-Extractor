@@ -15,8 +15,6 @@ function showInterface() {
     $("#main").hidden = false;
 }
 
-console.log('hello')
-
 rma_ja = new RakutenMA(model_ja);
 rma_ja.featset = RakutenMA.default_featset_ja;
 rma_ja.hash_func = RakutenMA.create_hash_func(15);
@@ -92,7 +90,6 @@ worker.onmessage = function(e) {
     result.lines?.forEach(line=>{
         // var tokens = segementer.tokenize(line);
         var tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(line))))
-        console.log(tokens)
         tokens.forEach(token=>{
             if (isNoun(token) && !symbols.includes(token[0])) {
             // if (token.pos === "名詞" && !symbols.includes(token.basic_form)) {
