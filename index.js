@@ -1,14 +1,13 @@
 let $ = s => document.querySelector(s);
 let worker = new Worker("worker.js");
-let segementer = null;
-// kuromoji.builder({ dicPath: "kuromoji/dict/" }).build(function (err, tokenizer) {
-//     segementer = tokenizer;
-//     showInterface();
-// });
 let nextId = 1;
 let currentResults = [];
 
-const symbols = '*，! " # $ % & ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~0123456789０１２３４５６７８９'
+const symbols = '*，! " # $ % & ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~'
+
+function isNumeric(value) {
+    return value.match(/[０-９]/g) || value.match(/[0-9]/g)
+}
 
 function showInterface() {
     $("#setup").hidden = true;
@@ -20,11 +19,6 @@ rma_ja.featset = RakutenMA.default_featset_ja;
 rma_ja.hash_func = RakutenMA.create_hash_func(15);
 
 showInterface()
-
-// const text = '彼は新しい仕事できっと成功するだろう'
-
-// tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(text))));
-// console.log(tokens)
 
 $("#files").addEventListener("change", async ev => {
     let files = [];
@@ -89,12 +83,9 @@ worker.onmessage = function(e) {
     let result = e.data;
     const results = new Set();
     result.lines?.forEach(line=>{
-        // var tokens = segementer.tokenize(line);
         var tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(line))))
         tokens.forEach(token=>{
-            if (isNoun(token) && !symbols.includes(token[0])) {
-            // if (token.pos === "名詞" && !symbols.includes(token.basic_form)) {
-                // const translationObject = rcxData.translate(token.basic_form) 
+            if (isNoun(token) && !symbols.includes(token[0]) && !isNumeric(token[0])) {
                 const translationObject = rcxData.translate(token[0]) 
                 translation = translationObject?.data[0][0];
 
