@@ -70,7 +70,7 @@ function addFiles(files) {
     worker.postMessage(cmd);
 }
 
-function isNoun(token) {
+function tokenIsNoun(token) {
     if (token.length > 1) {
         if (token[1].length > 0) {
             return token[1][0] === 'N'
@@ -79,21 +79,40 @@ function isNoun(token) {
     return false
 }
 
+function translationisNoun(translationObject) {
+    return translationObject.includes('/(n');
+}
+
+function getTranslationObject(text) {
+    const translationObject = rcxData.translate(text);
+    return translationObject?.data[0][0];
+}
+
 worker.onmessage = function(e) {
     let result = e.data;
     const results = new Set();
     result.lines?.forEach(line=>{
-        var tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(line))))
-        tokens.forEach(token=>{
-            if (isNoun(token) && !symbols.includes(token[0]) && !isNumeric(token[0])) {
-                const translationObject = rcxData.translate(token[0]) 
-                translation = translationObject?.data[0][0];
-
-                if (translation !== undefined) {
-                    results.add(translation)
-                }
+        const translationObject = getTranslationObject(line);
+        let isWord = false;
+        if (translationObject !== undefined) {
+            const isBasicForm = line.trim() === translationObject.split(" ")[0];
+            if (isBasicForm && translationisNoun(translationObject) && !isNumeric(line)) {
+                results.add(translationObject);
+                isWord = true;
             }
-        })
+        }
+        if (!isWord) {
+            var tokens = rma_ja.tokenize(HanZenKaku.hs2fs(HanZenKaku.hw2fw(HanZenKaku.h2z(line))))
+            tokens.forEach(token=>{
+                if (tokenIsNoun(token) && !symbols.includes(token[0]) && !isNumeric(token[0])) {
+                    const translationObject = getTranslationObject(token[0]);
+
+                    if (translationObject !== undefined) {
+                        results.add(translationObject)
+                    }
+                }
+            })
+        }
     })
     currentResults = Array.from(results);
     $('#processing').hidden = true;
