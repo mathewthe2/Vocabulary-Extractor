@@ -165,7 +165,7 @@ function rcxPrefs() {
 rcxPrefs.prototype = {
 	
 	stringVal : {
-		'css' : '//anjsub.com/mary/src/6ka/popup-blue.css'
+		'css' : 'popup-blue.css'
 	},
 	
 	getString: function(key) {
