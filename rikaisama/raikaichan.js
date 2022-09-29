@@ -4203,7 +4203,7 @@ var rcxConfig = {
 			if (e) e.hidden = a || b;
 		}, this);
 
-		rcxConfig.css = 'popup-blue.css'; // (rcxConfig.css.indexOf('/') == -1) ? ('popup-' + rcxConfig.css + '.css') : rcxConfig.css;
+		rcxConfig.css = 'rikaisama/popup-blue.css'; // (rcxConfig.css.indexOf('/') == -1) ? ('popup-' + rcxConfig.css + '.css') : rcxConfig.css;
 		//rcxConfig.css = '';
 	/*	 {
 			for (let i = gBrowser.browsers.length - 1; i >= 0; --i) {
